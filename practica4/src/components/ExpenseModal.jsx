@@ -1,33 +1,26 @@
-import { useContext, Fragment } from "react";
-import { BudgetStateContext, BudgetDispatchContext } from "../context/BudgetContext";
-import { Dialog, Transition } from "@headlessui/react";
-import { PlusCircleIcon } from "@heroicons/react/16/solid";
-import { ExpenseForm } from "./ExpenseForm";
+import { Fragment, useContext } from 'react'
+import { PlusCircleIcon } from '@heroicons/react/24/solid'
+import { Dialog, Transition } from '@headlessui/react'
+import { BudgetDispatchContext, BudgetStateContext } from '../context/BudgetContext'
+import { ExpenseForm } from './ExpenseForm'
 
-export default function ExpenseModal(){
-    const { modal } = useContext(BudgetStateContext);
-    const dispatch = useContext(BudgetDispatchContext);
+export default function ExpenseModal() {
+
+    const { modal } = useContext(BudgetStateContext)
+    const dispatch = useContext(BudgetDispatchContext)
 
     return (
         <>
-            {/* Botón para abrir el modal */}
             <div className="fixed right-5 bottom-5 flex items-center justify-center">
                 <button
-                    type="button"
-                    onClick={() => dispatch({ type: "show-modal" })}
+                    type="button" onClick={() => dispatch({ type: 'show-modal' })}
                 >
-                    <PlusCircleIcon className="w-16 h-16 text-blue-600 rounded-full" />
+                    <PlusCircleIcon className='w-16 h-16 text-blue-600 rounded-full' />
                 </button>
             </div>
-
-            {/* Modal */}
             <Transition appear show={modal} as={Fragment}>
-                <Dialog 
-                    as="div" 
-                    className="relative z-10" 
-                    onClose={() => dispatch({ type: "close-modal" })}
-                >
-                    {/* Fondo oscuro */}
+                <Dialog as="div" className="relative z-10" onClose={() =>
+                    dispatch({ type: 'close-modal' })}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -39,9 +32,8 @@ export default function ExpenseModal(){
                     >
                         <div className="fixed inset-0 bg-black bg-opacity-75" />
                     </Transition.Child>
-
                     <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <div className="flex min-h-full items-center justify-center p-4 textcenter">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -51,7 +43,8 @@ export default function ExpenseModal(){
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden
+rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <ExpenseForm />
                                 </Dialog.Panel>
                             </Transition.Child>
@@ -60,6 +53,5 @@ export default function ExpenseModal(){
                 </Dialog>
             </Transition>
         </>
-    );
+    )
 }
-
