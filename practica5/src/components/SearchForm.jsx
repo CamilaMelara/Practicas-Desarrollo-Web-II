@@ -14,16 +14,29 @@ export default function SearchForm() {
         })
     }
 
-
-
     const fetchCategories = useAppStore((state) => state.fetchCategories)
     const categories = useAppStore((state) => state.categories)
+    const searchRecipes=useAppStore((state)=>state.searchRecipes)
+
+    const handleSubmit=(e)=>{
+        e.preventDefault()
+
+        //TODO VALIDAR
+        if(Object.values(searchFilters).includes('')){
+            console.log('Todos los campos son obligatorios')
+            return
+        }
+
+        //consultar las recetas
+        searchRecipes(searchFilters)
+    }
+
     useEffect(() => {
         fetchCategories()
     }, [])
 
     return (
-        <form
+        <form onSubmit={handleSubmit}
             className='md:w-1/2 2xl:w-1/3 bg-orange-400 my-16 p-10 rounded-lg shadow
     space-y-6'
         >
@@ -38,6 +51,8 @@ export default function SearchForm() {
                     name='ingredient'
                     className='p-3 w-full rounded-lg focus:outline-none bg-white'
                     placeholder='Nombre o Ingrediente. Ej. Vodka, Tequila, Café'
+                    value={searchFilters.ingredient}
+                    onChange={handleChange}
                 />
             </div>
             <div className='space-y-4'>
@@ -49,6 +64,8 @@ export default function SearchForm() {
                     id='category'
                     name='category'
                     className='p-3 w-full rounded-lg focus:outline-none bg-white'
+                    value={searchFilters.category}
+                    onChange={handleChange}
                 >
                     <option value="">-- Seleccione --</option>
                     {categories.map(category => (
